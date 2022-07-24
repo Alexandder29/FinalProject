@@ -1,3 +1,9 @@
+package repository;
+
+import dataTransferObject.DestinationsDTO;
+import domain.Destinations;
+import service.Location;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

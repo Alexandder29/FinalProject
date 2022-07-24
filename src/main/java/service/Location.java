@@ -1,3 +1,5 @@
+package service;
+
 public class Location {
 
     private Long id;

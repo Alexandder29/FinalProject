@@ -1,3 +1,9 @@
+package web;
+
+import repository.PostgresRepository;
+import dataTransferObject.DestinationsDTO;
+import service.Location;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,13 +16,11 @@ import java.util.List;
 
 @WebServlet("/airlineTravel")
 public class AirlineTravel extends HttpServlet {
-    private int counter;
 
     private PostgresRepository repository = new PostgresRepository();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        counter++;
 
         String destination = req.getParameter("destination");
         String description = req.getParameter("description");
@@ -42,7 +46,6 @@ public class AirlineTravel extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        counter++;
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         out.println("<head><title>Destinations</title></head>");
@@ -72,13 +75,13 @@ public class AirlineTravel extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        System.out.println("init() called. Counter is: " + counter);
         super.init();
+        getServletContext().log("init() called");
     }
 
     @Override
     public void destroy() {
-        System.out.println("Destroying Servlet! Counter is: " + counter);
+        System.out.println("Destroying Servlet!");
         super.destroy();
     }
 }
