@@ -6,6 +6,6 @@ public record Destinations(
         String description,
         String season,
         int cost,
-        boolean visited,
+        boolean isVisited,
         String seatClass
 ){}

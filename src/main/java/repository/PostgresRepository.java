@@ -8,11 +8,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostgresRepository {
+public class PostgresRepository implements DestinationRepository {
 
     final static String URL = "jdbc:postgresql://localhost:5432/AirlineTravel";
     final static String USERNAME = "traveler";
-    final static String PASSWORD = "POSTGRES_PASSWORD";
+    final static String PASSWORD = System.getenv("POSTGRES_PASSWORD");
+
+    public PostgresRepository() {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new AccessException(e);
+        }
+    }
 
     public void insert(Location location) throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
@@ -34,32 +42,53 @@ public class PostgresRepository {
         connection.close();
     }
 
-    public List<Location> read() throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
+    public List<Destinations> findAll() {
 
-        Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-        Statement st = conn.createStatement();
+        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-        ResultSet rs = st.executeQuery("SELECT id, destination, description, season, seatclass, cost, visited FROM travelhistory");
+             Statement st = conn.createStatement();
 
-        List<Location> locations = new ArrayList<>();
-        while (rs.next()) {
-            Location location = new Location(
-                    rs.getString("destination"),
-                    rs.getString("description"),
-                    rs.getString("season"),
-                    rs.getString("seaclass"),
-                    rs.getInt("cost"),
-                    rs.getBoolean("visited"));
+             ResultSet rs = st.executeQuery("SELECT * FROM travelhistory");
+        ) {
 
-            location.setId(rs.getLong("id"));
-            locations.add(location);
+            List<Destinations> locations = new ArrayList<>();
+            while (rs.next()) {
+                long id = rs.getLong("id");
+                String destination = rs.getString("destination");
+                String description = rs.getString("description");
+                String season = rs.getString("season");
+                String seatclass = rs.getString("seatclass");
+                int cost = rs.getInt("cost");
+                boolean visited = rs.getBoolean("visited");
+            }
+            return locations;
+        } catch (SQLException e) {
+            throw new AccessException(e);
         }
+    }
 
-        rs.close();
-        st.close();
-        conn.close();
-        return locations;
+    @Override
+    public void save(DestinationsDTO dto) {
+
+        try (
+                Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+             PreparedStatement pSt = conn.prepareStatement("INSERT INTO travelhistory (destination, description, season, seatclass, cost, visited) VALUES (?, ?, ?, ?, ?, ?)"
+             )
+        ) {
+            pSt.setString(1, dto.destination());
+            pSt.setString(2, dto.description());
+            pSt.setString(3, dto.season());
+            pSt.setString(4, dto.seatClass());
+            pSt.setInt(5, dto.cost());
+            pSt.setBoolean(6, dto.isVisited());
+
+            int rowsInserted = pSt.executeUpdate();
+            System.out.println("Inserted " + rowsInserted);
+
+        } catch (SQLException e) {
+            throw new AccessException(e);
+        }
     }
 }

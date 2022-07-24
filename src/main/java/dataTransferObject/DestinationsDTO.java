@@ -5,6 +5,6 @@ public record DestinationsDTO(
         String description,
         String season,
         int cost,
-        boolean visited,
+        boolean isVisited,
         String seatClass
 ) {}

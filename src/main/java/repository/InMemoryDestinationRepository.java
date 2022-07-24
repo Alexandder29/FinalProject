@@ -16,6 +16,6 @@ public class InMemoryDestinationRepository implements DestinationRepository {
 
     @Override
     public void save(DestinationsDTO dto) {
-        history.add(new Destinations(history.size(), dto.destination(), dto.description(), dto.season(), dto.cost(), dto.visited(), dto.seatClass()));
+        history.add(new Destinations(history.size(), dto.destination(), dto.description(), dto.season(), dto.cost(), dto.isVisited(), dto.seatClass()));
     }
 }

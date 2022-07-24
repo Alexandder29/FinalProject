@@ -7,19 +7,17 @@
 
 <h2>Airline Travel</h2>
 <form action="airlineTravel" method="post">
-  <div class="container">
-    <div class="box" id="box1">Destination:<input type="text" name="destination"/><br /></div>
-    <div class="box" id="box2">Description:<input type="text" name="description"/><br /></div>
-    <div class="box" id="box3">Season:<input type="text" name="season"/><br /></div>
-    <div class="box" id="box4">SeatClass:<input type="text" name="seat-class"/><br /></div>
-    <div class="box" id="box5">Cost:<input type="number" name="cost"/><br /></div>
-    <div class="box" id="box6">Visited:<input type="checkbox" name="seat-class"/><br /></div>
-
-  </div>
-  <input type="submit" value="Submit"/>&nbsp;
+    Destination:<input type="text" name="destination" id="destination"/><br />
+    Description:<input type="text" name="description" id="description"/><br />
+    Season:<input type="text" name="season" id="season"/><br />
+    SeatClass:<input type="text" name="seatclass" id="seatclass"/><br />
+    Cost:<input type="number" name="cost" id="cost"/><br />
+    Visited:<input type="checkbox" name="isVisited" id="isVisited"/><br />
+  <input type="submit" value="Submit"/>
 </form>
-<form action="airlineTravel" method="get">
-  <input type="submit" value="Afiseaza tabel"/>
+
+<form name="h" action = "airlineTravel" method = "get">
+  <input type="submit" value="Show travel wishes"/>
 </form>
 </body>
 </html>
