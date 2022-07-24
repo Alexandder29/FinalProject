@@ -2,7 +2,6 @@ package repository;
 
 import dataTransferObject.DestinationsDTO;
 import domain.Destinations;
-import service.Location;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,26 +21,7 @@ public class PostgresRepository implements DestinationRepository {
         }
     }
 
-    public void insert(Location location) throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
-
-        Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
-        PreparedStatement pSt = connection.prepareStatement("INSERT INTO travelhistory(destination, description, season, seatclass, cost, visited) VALUES (?, ?, ?, ?, ?, ?)");
-        pSt.setString(1, location.getDestination());
-        pSt.setString(2, location.getDescription());
-        pSt.setString(3, location.getSeason());
-        pSt.setString(4, location.getSeatClass());
-        pSt.setInt(5, location.getCost());
-        pSt.setBoolean(6, location.isVisited());
-
-        int rowsInserted = pSt.executeUpdate();
-        System.out.println("You have inserted " + rowsInserted + " locations.");
-
-        pSt.close();
-        connection.close();
-    }
-
+    @Override
     public List<Destinations> findAll() {
 
 
@@ -52,7 +32,7 @@ public class PostgresRepository implements DestinationRepository {
              ResultSet rs = st.executeQuery("SELECT * FROM travelhistory");
         ) {
 
-            List<Destinations> locations = new ArrayList<>();
+            List<Destinations> destinations = new ArrayList<>();
             while (rs.next()) {
                 long id = rs.getLong("id");
                 String destination = rs.getString("destination");
@@ -61,8 +41,9 @@ public class PostgresRepository implements DestinationRepository {
                 String seatclass = rs.getString("seatclass");
                 int cost = rs.getInt("cost");
                 boolean visited = rs.getBoolean("visited");
+                destinations.add(new Destinations(id, destination, description, season, cost, visited, seatclass));
             }
-            return locations;
+            return destinations;
         } catch (SQLException e) {
             throw new AccessException(e);
         }
@@ -74,8 +55,8 @@ public class PostgresRepository implements DestinationRepository {
         try (
                 Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-             PreparedStatement pSt = conn.prepareStatement("INSERT INTO travelhistory (destination, description, season, seatclass, cost, visited) VALUES (?, ?, ?, ?, ?, ?)"
-             )
+                PreparedStatement pSt = conn.prepareStatement("INSERT INTO travelhistory (destination, description, season, seatclass, cost, visited) VALUES (?, ?, ?, ?, ?, ?)"
+                )
         ) {
             pSt.setString(1, dto.destination());
             pSt.setString(2, dto.description());

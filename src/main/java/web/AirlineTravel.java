@@ -30,7 +30,7 @@ public class AirlineTravel extends HttpServlet {
         boolean visited = Boolean.parseBoolean(req.getParameter("isVisited"));
 
         try {
-
+            //String history = locationService.printHistory(destination, description, season, cost, visited, seatclass);
 
             Location location = new Location(destination, description, season, seatclass, cost, visited);
             resp.setContentType("text/html;charset=UTF-8");

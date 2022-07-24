@@ -5,7 +5,6 @@ import dataTransferObject.DestinationsDTO;
 import domain.Destinations;
 import repository.PostgresRepository;
 import repository.DestinationRepository;
-import repository.InMemoryDestinationRepository;
 
 import java.util.ArrayList;
 import java.util.List;
