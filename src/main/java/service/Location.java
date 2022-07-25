@@ -50,12 +50,13 @@ public class Location {
     @Override
     public String toString() {
         return "Location{" +
-                "destination='" + destination + '\'' +
+                "id=" + id +
+                ", destination='" + destination + '\'' +
                 ", description='" + description + '\'' +
-                ", season=" + season +
+                ", season='" + season + '\'' +
                 ", cost=" + cost +
-                ", visited=" + isVisited +
-                ", seatClass=" + seatClass +
+                ", isVisited=" + isVisited +
+                ", seatClass='" + seatClass + '\'' +
                 '}';
     }
 }
