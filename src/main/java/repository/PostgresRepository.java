@@ -11,7 +11,7 @@ public class PostgresRepository implements DestinationRepository {
 
     final static String URL = "jdbc:postgresql://localhost:5432/AirlineTravel";
     final static String USERNAME = "traveler";
-    final static String PASSWORD = System.getenv("POSTGRES_PASSWORD");
+    final static String PASSWORD = System.getenv("PGRES_PASS");
 
     public PostgresRepository() {
         try {
@@ -29,7 +29,7 @@ public class PostgresRepository implements DestinationRepository {
 
              Statement st = conn.createStatement();
 
-             ResultSet rs = st.executeQuery("SELECT * FROM travelhistory");
+             ResultSet rs = st.executeQuery("SELECT * FROM travelhistory")
         ) {
 
             List<Destinations> destinations = new ArrayList<>();
