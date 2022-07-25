@@ -10,7 +10,7 @@ import java.util.List;
 public class PostgresRepository implements DestinationRepository {
 
     final static String URL = "jdbc:postgresql://localhost:5432/AirlineTravel";
-    final static String USERNAME = "postgres";
+    final static String USERNAME = "traveler";
     final static String PASSWORD = System.getenv("PGRES_PASS");
 
     public PostgresRepository() {
@@ -40,8 +40,8 @@ public class PostgresRepository implements DestinationRepository {
                 String season = rs.getString("season");
                 String seatclass = rs.getString("seat_class");
                 int cost = rs.getInt("cost");
-                boolean visited = rs.getBoolean("visited");
-                destinations.add(new Destinations(id, destination, description, season, cost, visited, seatclass));
+                boolean isVisited = rs.getBoolean("isVisited");
+                destinations.add(new Destinations(id, destination, description, season, cost, isVisited, seatclass));
             }
             return destinations;
         } catch (SQLException e) {
@@ -66,7 +66,7 @@ public class PostgresRepository implements DestinationRepository {
             pSt.setBoolean(6, dto.isVisited());
 
             int rowsInserted = pSt.executeUpdate();
-            System.out.println("Inserted " + rowsInserted);
+            System.out.println("Inserted " + rowsInserted + " row/-s");
 
         } catch (SQLException e) {
             throw new AccessException(e);

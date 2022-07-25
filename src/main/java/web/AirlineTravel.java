@@ -27,16 +27,16 @@ public class AirlineTravel extends HttpServlet {
         String season = req.getParameter("season");
         String seat_class = req.getParameter("seat_class");
         int cost = Integer.parseInt(req.getParameter("cost"));
-        boolean visited = Boolean.parseBoolean(req.getParameter("isVisited"));
+        boolean isVisited = Boolean.parseBoolean(req.getParameter("isVisited"));
 
         try {
 
-            locationService.saveDestinations(new DestinationsDTO(destination, description, season, cost, visited, seat_class));
+            locationService.saveDestinations(new DestinationsDTO(destination, description, season, cost, isVisited, seat_class));
 
-            Location location = new Location(destination, description, season, seat_class, cost, visited);
+            Location location = new Location(destination, description, season, seat_class, cost, isVisited);
             resp.setContentType("text/html;charset=UTF-8");
             PrintWriter out = resp.getWriter();
-            out.println("<h2>=-=Destination=-=</h2>");
+            out.println("<h2><center>=-=Destination=-=</center></h2>");
 
             out.println("Destination is: <b>" + location + "</b><br />");
             out.println("<a href='/AirlineTravel_war_exploded'>Insert another destination</a>");
@@ -54,9 +54,9 @@ public class AirlineTravel extends HttpServlet {
         out.println("<head><title>Destinations</title></head>");
 
         out.println("<body>");
-        out.println("Destination wishes<br />");
-        out.println("<table>");
-        out.println("<tr><th>Id</th><th>Destination</th><th>Description</th><th>Season</th><th>SeatClass</th><th>Cost</th><th>Visited</th></tr>");
+        out.println("<h2><b><center>Destination wishes</h2></b></center><br />");
+        out.println("<center><table>");
+        out.println("<tr><th>Destination</th><th>Description</th><th>Season</th><th>SeatClass</th><th>Cost</th><th>Visited</th></tr>");
 
         for (DestinationsDTO values : locationService.listDestinations()) {
             out.println("<tr>");
@@ -68,7 +68,7 @@ public class AirlineTravel extends HttpServlet {
             out.println("<td>" + values.isVisited() + "</td>");
             out.println("</tr>");
         }
-        out.println("</table>");
+        out.println("</table></center>");
 
         out.println("</body>");
         out.close();
