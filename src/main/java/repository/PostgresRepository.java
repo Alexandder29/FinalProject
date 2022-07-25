@@ -10,7 +10,7 @@ import java.util.List;
 public class PostgresRepository implements DestinationRepository {
 
     final static String URL = "jdbc:postgresql://localhost:5432/AirlineTravel";
-    final static String USERNAME = "traveler";
+    final static String USERNAME = "postgres";
     final static String PASSWORD = System.getenv("PGRES_PASS");
 
     public PostgresRepository() {
@@ -38,7 +38,7 @@ public class PostgresRepository implements DestinationRepository {
                 String destination = rs.getString("destination");
                 String description = rs.getString("description");
                 String season = rs.getString("season");
-                String seatclass = rs.getString("seatclass");
+                String seatclass = rs.getString("seat_class");
                 int cost = rs.getInt("cost");
                 boolean visited = rs.getBoolean("visited");
                 destinations.add(new Destinations(id, destination, description, season, cost, visited, seatclass));
@@ -55,7 +55,7 @@ public class PostgresRepository implements DestinationRepository {
         try (
                 Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-                PreparedStatement pSt = conn.prepareStatement("INSERT INTO travelhistory (destination, description, season, seatclass, cost, visited) VALUES (?, ?, ?, ?, ?, ?)"
+                PreparedStatement pSt = conn.prepareStatement("INSERT INTO travelhistory (destination, description, season, seat_class, cost, visited) VALUES (?, ?, ?, ?, ?, ?)"
                 )
         ) {
             pSt.setString(1, dto.destination());

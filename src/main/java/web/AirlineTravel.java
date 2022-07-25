@@ -25,13 +25,15 @@ public class AirlineTravel extends HttpServlet {
         String destination = req.getParameter("destination");
         String description = req.getParameter("description");
         String season = req.getParameter("season");
-        String seatclass = req.getParameter("seatclass");
+        String seat_class = req.getParameter("seat_class");
         int cost = Integer.parseInt(req.getParameter("cost"));
         boolean visited = Boolean.parseBoolean(req.getParameter("isVisited"));
 
         try {
 
-            Location location = new Location(destination, description, season, seatclass, cost, visited);
+            locationService.saveDestinations(new DestinationsDTO(destination, description, season, cost, visited, seat_class));
+
+            Location location = new Location(destination, description, season, seat_class, cost, visited);
             resp.setContentType("text/html;charset=UTF-8");
             PrintWriter out = resp.getWriter();
             out.println("<h2>=-=Destination=-=</h2>");

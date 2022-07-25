@@ -28,4 +28,9 @@ public class LocationService {
         }
         return destinations;
     }
+
+    public void saveDestinations(DestinationsDTO dto) {
+        DestinationRepository repo = new PostgresRepository();
+        repo.save(dto);
+    }
 }
